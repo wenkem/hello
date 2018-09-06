@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+    <script>
+        //如果选择某一项就会触发增加一个下拉选项，选其他就自动消失
+$(".role_id").change(function(){
+      var data = $('.role_id').val();
+      var add = $('.oemselect');
+        $.post("{:url('auth/role')}",{role_id:data},function (res) {
+            if(res.code == 1){
+               //console.log(res.data);
+               add.append('<div class="showoem"><label class="col-sm-4 control-label ">*oem：</label><div class="col-sm-6"><select class="form-control group_name oem" name=\'oem\' required="required"><option value="">请选择</option>');
+               for (var k = 0, length = res.data.length; k < length; k++) {
+                     $('.oem').append("<option  value='"+res.data[k]['id']+"'>"+res.data[k]['com_name']+"</option>");  
+               } 
+             add.append('</select></div></div>');
+            }else{
+                $('.showoem').remove();
+            }
+        });  
+  });
+  
+    </script>   
